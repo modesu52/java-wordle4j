@@ -112,8 +112,19 @@ public class WordleGame {
         return word;
     }
 
-    public boolean isGameOver() { return isGameOver; }
-    public boolean isWon()      { return isWon; }
-    public int getSteps()       { return steps; }
-    public String getAnswer()   { return answer; }
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public boolean isWon() {
+        return isWon;
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
 }
