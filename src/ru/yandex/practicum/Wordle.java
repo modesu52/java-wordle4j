@@ -1,7 +1,9 @@
 package ru.yandex.practicum;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+
 /*
 в главном классе нам нужно:
     создать лог-файл (он должен передаваться во все классы)
@@ -11,6 +13,7 @@ import java.util.Scanner;
     вызвать игровой метод в котором в цикле опрашивать пользователя и передавать информацию в игру
     вывести состояние игры и конечный результат
  */
+
 public class Wordle {
 
     private static final String DICTIONARY_PATH = "words_ru.txt";

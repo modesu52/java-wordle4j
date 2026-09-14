@@ -8,6 +8,7 @@ import java.util.Random;
     его методы похожи на методы списка, но учитывают особенности игры
     также этот класс может содержать рутинные функции для сравнения слов, букв и т.д.
  */
+
 public class WordleDictionary {
 
     public static final int WORD_LENGTH = 5; // длина необходимого слова

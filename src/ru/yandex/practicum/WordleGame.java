@@ -1,6 +1,5 @@
 package ru.yandex.practicum;
 
-
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -16,6 +15,7 @@ import java.util.*;
 
 не забудьте про специальные типы исключений для игровых и неигровых ошибок
  */
+
 public class WordleGame {
 
     public static final int MAX_STEPS = 6;
