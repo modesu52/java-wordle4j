@@ -99,22 +99,22 @@ class WordleTest {
     }
 
     @Test
-    void makeMove_shouldThrowForUnknownWord() {
-        assertThrows(IllegalArgumentException.class, () -> game.makeMove("привет"));
+    void makeMove_shouldThrowForUnknownWord() throws  InvalidInputException {
+        assertThrows(InvalidInputException.class, () -> game.makeMove("привет"));
         assertEquals(0, game.getSteps());
     }
 
     @Test
     void makeMove_shouldThrowForWrongLength() {
-        assertThrows(IllegalArgumentException.class, () -> game.makeMove("дом"));
-        assertThrows(IllegalArgumentException.class, () -> game.makeMove("городок"));
+        assertThrows(InvalidInputException.class, () -> game.makeMove("дом"));
+        assertThrows(InvalidInputException.class, () -> game.makeMove("городок"));
     }
 
     @Test
     void makeMove_shouldThrowForEmptyOrNull() {
-        assertThrows(IllegalArgumentException.class, () -> game.makeMove(""));
-        assertThrows(IllegalArgumentException.class, () -> game.makeMove("   "));
-        assertThrows(IllegalArgumentException.class, () -> game.makeMove(null));
+        assertThrows(InvalidInputException.class, () -> game.makeMove(""));
+        assertThrows(InvalidInputException.class, () -> game.makeMove("   "));
+        assertThrows(InvalidInputException.class, () -> game.makeMove(null));
     }
 
     @Test
