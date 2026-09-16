@@ -39,7 +39,7 @@ public class WordleGame {
         log.println("Загадано слово: " + answer);
     }
 
-    public String makeMove(String raw) {
+    public String makeMove(String raw) throws  InvalidInputException, WordNotFoundException {
         if (isGameOver) {
             throw new IllegalStateException("Игра уже завершена.");
         }
@@ -90,24 +90,23 @@ public class WordleGame {
         return true;
     }
 
-    private String validate(String raw) {
+    private String validate(String raw) throws InvalidInputException, WordNotFoundException {
         if (raw == null || raw.isBlank()) {
-            throw new IllegalArgumentException("Введите слово.");
+            throw new InvalidInputException("Введите слово.");
         }
         String word = WordleDictionary.normalizeWord(raw);
 
         if (word.length() != WordleDictionary.WORD_LENGTH) {
-            throw new IllegalArgumentException(
+            throw new InvalidInputException(
                     "Слово должно состоять из " + WordleDictionary.WORD_LENGTH + " букв.");
         }
         for (char c : word.toCharArray()) {
             if (c < 'а' || c > 'я') {
-                throw new IllegalArgumentException("Используйте только русские буквы.");
+                throw new InvalidInputException("Используйте только русские буквы.");
             }
         }
         if (!dictionary.contains(word)) {
-            throw new IllegalArgumentException(
-                    "Слово \"" + word + "\" не найдено в словаре.");
+            throw new WordNotFoundException(word);
         }
         return word;
     }

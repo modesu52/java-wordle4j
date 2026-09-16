@@ -20,19 +20,22 @@ public class Wordle {
     private static final String LOG_PATH        = "wordle.log";
 
     public static void main(String[] args) {
-        // PrintWriter лога создаём первым, он передаётся во все классы
-        try (PrintWriter log = new PrintWriter(
+        PrintWriter logWriter = null;
+        try {
+                logWriter = new PrintWriter(
                 new OutputStreamWriter(
-                        new FileOutputStream(LOG_PATH), StandardCharsets.UTF_8))) {
-
-            log.println("=== НАЧАЛО ИГРЫ ===");
+                        new FileOutputStream(LOG_PATH),
+                        StandardCharsets.UTF_8
+                )
+        );
+            logWriter.println("=== НАЧАЛО ИГРЫ ===");
 
             // загружаем словарь
-            WordleDictionaryLoader loader = new WordleDictionaryLoader(log);
+            WordleDictionaryLoader loader = new WordleDictionaryLoader(logWriter);
             WordleDictionary dictionary = loader.loadDictionary(DICTIONARY_PATH);
 
             // создаем игру
-            WordleGame game = new WordleGame(dictionary, log);
+            WordleGame game = new WordleGame(dictionary, logWriter);
 
             System.out.println("=== ИГРА WORDLE ===");
             System.out.println("Угадайте слово из 5 букв. У вас " + WordleGame.MAX_STEPS + " попыток.");
@@ -48,6 +51,7 @@ public class Wordle {
                     if (input.isEmpty()) {
                         String hint = game.getHint();
                         System.out.println("Подсказка: " + hint);
+                        logWriter.println("Запрошена подсказка: " + hint); // обязательно в лог
                         continue;
                     }
 
@@ -56,8 +60,12 @@ public class Wordle {
                         System.out.println(WordleDictionary.normalizeWord(input));
                         System.out.println(result);
                         System.out.println();
-                    } catch (IllegalArgumentException e) {
+                    } catch (WordNotFoundException e) {
                         System.out.println(e.getMessage());
+                        logWriter.println("Слово не найдено: " + input);
+                    } catch (InvalidInputException e) {
+                        System.out.println(e.getMessage());
+                        logWriter.println("Некорректный ввод: " + input);
                     }
                 }
             }
@@ -69,12 +77,19 @@ public class Wordle {
                 System.out.println("💔 ПОРАЖЕНИЕ. Загаданное слово: " + game.getAnswer());
             }
 
-            log.println("=== КОНЕЦ ИГРЫ. Слово: " + game.getAnswer()
+            logWriter.println("=== КОНЕЦ ИГРЫ. Слово: " + game.getAnswer()
                     + ", ходов: " + game.getSteps() + ", победа: " + game.isWon() + " ===");
-
         } catch (Exception e) {
-            System.err.println("Критическая ошибка: " + e.getMessage());
-            e.printStackTrace();
+            // теперь logWriter доступен здесь
+            if (logWriter != null) {
+                logWriter.println("Критическая ошибка: " + e.getMessage());
+                e.printStackTrace(logWriter); // пишем в лог, не в консоль
+            }
+            System.out.println("Произошла ошибка. Подробности в wordle.log");
+        } finally {
+            if (logWriter != null) {
+                logWriter.close();
+            }
         }
     }
 }

@@ -91,7 +91,7 @@ class WordleTest {
     }
 
     @Test
-    void makeMove_shouldReturnValidResult() {
+    void makeMove_shouldReturnValidResult() throws InvalidInputException, WordNotFoundException {
         String result = game.makeMove("город");
         assertNotNull(result);
         assertEquals(5, result.length());
@@ -118,7 +118,7 @@ class WordleTest {
     }
 
     @Test
-    void getHint_shouldReturnValidWord() {
+    void getHint_shouldReturnValidWord() throws InvalidInputException, WordNotFoundException {
         game.makeMove("город");
         String hint = game.getHint();
         assertNotNull(hint);

@@ -26,7 +26,7 @@ public class WordleDictionary {
 
     public String getRandomWord() {
         if (words.isEmpty()) {
-            throw new RuntimeException("The List is EMPTY");
+            throw new EmptyDictionaryException("Словарь пуст, невозможно выбрать слово.");
         }
         return words.get(random.nextInt(words.size()));
     }
